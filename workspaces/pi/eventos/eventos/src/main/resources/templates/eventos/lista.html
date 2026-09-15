@@ -6,6 +6,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <title>Insert title here</title>
+<title>Eventos</title>
 </head>
 <body>
 	<div th:replace="~{menu :: menu}"></div>
@@ -14,6 +15,7 @@
 		<h1>Lista de eventos</h1>
 
 		<table>
+		<table class="highlight">
 
 			<thead>
 				<tr>
@@ -27,7 +29,6 @@
 			<tbody>
 				<tr th:each="e : ${eventos}">
 					<td th:text="${e.id}">1</td>
-					<td th:text="${e.nome}">Aniversário de João</td>
 					<td><a th:href="@{/eventos/{id}(id=${e.id})}"><span th:text="${e.nome}">Aniversário de João</span></a></td>
 					<td th:text="${e.local}">Clube</td>
 					<td th:text="${e.data}">25/02/2021</td>
