@@ -47,7 +47,7 @@ public class EventosController {
 		System.out.println(evento);
 		er.save(evento);
 
-		return "eventos/evento-adicionado";
+		return "redirect:/eventos";
 	}
 
 	@GetMapping
@@ -107,42 +107,42 @@ public class EventosController {
 			md.setViewName("redirect:/eventos");
 			return md;
 		}
-		
+
 		Evento evento = opt.get();
 		md.setViewName("eventos/formEvento");
 		md.addObject("evento", evento);
-		
+
 		return md;
 	}
-	
+
 	@GetMapping("/{idEvento}/convidados/{idConvidado}/selecionar")
 	public ModelAndView selecionarConvidado(@PathVariable Long idEvento, @PathVariable Long idConvidado) {
 	    ModelAndView md = new ModelAndView();
-	    
+
 	    Optional<Evento> optEvento = er.findById(idEvento);
 	    Optional<Convidado> optConvidado = cr.findById(idConvidado);
-	    
+
 	    if(optEvento.isEmpty() || optConvidado.isEmpty() ) {
 	        md.setViewName("redirect:/eventos");
 	        return md;
 	    }
-	    
+
 	    Evento evento = optEvento.get();
 	    Convidado convidado = optConvidado.get();
-	    
+
 	    if(evento.getId() != convidado.getEvento().getId()) {
 	        md.setViewName("redirect:/eventos");
 	        return md;
 	    }
-	    
+
 	    md.setViewName("eventos/detalhes");
 	    md.addObject("convidado", convidado); // CORRIGIDO AQUI (c minúsculo)
 	    md.addObject("evento", evento);
 	    md.addObject("convidados", cr.findByEvento(evento));
-	    
+
 	    return md;
 	}
-	
+
 	@GetMapping("/{id}/remover")
 	public String apagarEvento(@PathVariable Long id) {
 
@@ -159,6 +159,22 @@ public class EventosController {
 		}
 
 		return "redirect:/eventos";
+	}
+	
+	@GetMapping("/{idEvento}/convidados/{idConvidado}/remover")
+	public String apagarConvidado(@PathVariable Long idEvento, @PathVariable Long idConvidado) {
+	    
+	    Optional<Convidado> optConvidado = cr.findById(idConvidado);
+	    
+	    if (optConvidado.isPresent()) {
+	        Convidado convidado = optConvidado.get();
+	        // Garante que o convidado realmente pertence a este evento antes de deletar
+	        if (convidado.getEvento().getId().equals(idEvento)) {
+	            cr.delete(convidado);
+	        }
+	    }
+	    
+	    return "redirect:/eventos/" + idEvento;
 	}
 
 }
