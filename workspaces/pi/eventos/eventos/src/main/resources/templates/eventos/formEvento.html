@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -18,19 +17,24 @@
 
 		<div>
 			<label>Nome:</label> <input type="text" name="nome">
+			<input type="hidden" name="id" th:value="${evento.id}" readonly="readonly">
 		</div>
 		<div>
 			<label>Local:</label> <input type="text" name="local">
+			<label>Nome:</label> <input type="text" name="nome" th:value="${evento.nome}">
 		</div>
 		<div>
 			<label>Data:</label> <input type="text" name="data">
+			<label>Local:</label> <input type="text" name="local" th:value="${evento.local}">
 		</div>
 		<div>
 			<label>Horário:</label> <input type="text" name="horario">
+			<label>Data:</label> <input type="text" name="data" th:value="${evento.data}">
 		</div>
 		<div>
-		<button type="submit">Salvar</button>
-		<button type="reset">Limpar</button>
+			<label>Horário:</label> <input type="text" name="horario" th:value="${evento.horario}">
+		</div>
+		<div>
 			<button class="waves-effect waves-light btn" type="submit">Salvar</button>
 			<button class="waves-effect waves-light btn" type="reset">Limpar</button>
 		</div>
