@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import ifrn.pi.eventos.models.Convidado;
 import ifrn.pi.eventos.models.Evento;
 import ifrn.pi.eventos.repositories.ConvidadoRepository;
 import ifrn.pi.eventos.repositories.EventoRepository;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/eventos")
@@ -42,7 +44,11 @@ public class EventosController {
 	}
 
 	@PostMapping
-	public String salvar(Evento evento) {
+	public String salvar(@Valid Evento evento, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return form(evento);
+		}
 
 		System.out.println(evento);
 		er.save(evento);
@@ -81,7 +87,11 @@ public class EventosController {
 	}
 
 	@PostMapping("/{idEvento}")
-	public String salvarConvidado(@PathVariable Long idEvento, Convidado convidado) {
+	public String salvarConvidado(@PathVariable Long idEvento, @Valid Convidado convidado, BindingResult result) {
+		
+		if (result.hasErrors()) {
+	        return "redirect:/eventos/{idEvento}";
+	    }
 
 		System.out.println("Id do evento: " + idEvento);
 		System.out.println(convidado);
@@ -160,12 +170,12 @@ public class EventosController {
 
 		return "redirect:/eventos";
 	}
-	
+
 	@GetMapping("/{idEvento}/convidados/{idConvidado}/remover")
 	public String apagarConvidado(@PathVariable Long idEvento, @PathVariable Long idConvidado) {
-	    
+
 	    Optional<Convidado> optConvidado = cr.findById(idConvidado);
-	    
+
 	    if (optConvidado.isPresent()) {
 	        Convidado convidado = optConvidado.get();
 	        // Garante que o convidado realmente pertence a este evento antes de deletar
@@ -173,7 +183,7 @@ public class EventosController {
 	            cr.delete(convidado);
 	        }
 	    }
-	    
+
 	    return "redirect:/eventos/" + idEvento;
 	}
 
