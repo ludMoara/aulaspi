@@ -11,35 +11,46 @@
 	<div th:replace="~{menu :: menu}"></div>
 
 	<div class="container">
-	<h1>Adicionar Evento</h1>
+		<h1>Adicionar Evento</h1>
 
-	<form action="/eventos" method="post">
+		<form action="/eventos" method="post">
+			<form action="/eventos" method="post" th:object="${evento}">
 
-		<div>
-			<label>Nome:</label> <input type="text" name="nome">
-			<input type="hidden" name="id" th:value="${evento.id}" readonly="readonly">
-		</div>
-		<div>
-			<label>Local:</label> <input type="text" name="local">
-			<label>Nome:</label> <input type="text" name="nome" th:value="${evento.nome}">
-		</div>
-		<div>
-			<label>Data:</label> <input type="text" name="data">
-			<label>Local:</label> <input type="text" name="local" th:value="${evento.local}">
-		</div>
-		<div>
-			<label>Horário:</label> <input type="text" name="horario">
-			<label>Data:</label> <input type="text" name="data" th:value="${evento.data}">
-		</div>
-		<div>
-			<label>Horário:</label> <input type="text" name="horario" th:value="${evento.horario}">
-		</div>
-		<div>
-			<button class="waves-effect waves-light btn" type="submit">Salvar</button>
-			<button class="waves-effect waves-light btn" type="reset">Limpar</button>
-		</div>
+				<div>
+					<input type="hidden" name="id" th:value="${evento.id}"
+						readonly="readonly"> <input type="hidden" th:field="*{id}"
+						readonly="readonly">
+				</div>
+				<div>
+					<label>Nome:</label> <input type="text" name="nome"
+						th:value="${evento.nome}"> <label>Nome:</label> <input
+						type="text" th:field="*{nome}">
+					<p th:errors="*{nome}"></p>
+				</div>
+				<div>
+					<label>Local:</label> <input type="text" name="local"
+						th:value="${evento.local}"> <label>Local:</label> <input
+						type="text" th:field="*{local}">
+					<p th:errors="*{local}"></p>
+				</div>
+				<div>
+					<label>Data:</label> <input type="text" name="data"
+						th:value="${evento.data}"> <label>Data:</label> <input
+						type="text" th:field="*{data}">
+					<p th:errors="*{data}"></p>
+				</div>
+				<div>
+					<label>Horário:</label> <input type="text" name="horario"
+						th:value="${evento.horario}"> <label>Horário:</label> <input
+						type="text" th:field="*{horario}">
+					<p th:errors="*{horario}"></p>
+				</div>
+				<div>
+					<button class="waves-effect waves-light btn" type="submit">Salvar</button>
+					<button class="waves-effect waves-light btn" type="reset">Limpar</button>
+				</div>
 
-	</form>
+			</form>
 	</div>
 </body>
 </html>
